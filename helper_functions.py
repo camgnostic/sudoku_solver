@@ -25,6 +25,8 @@ def get_square(board, squarerow, squarecol):
     """return the section of board corresponding to a square region"""
     return [row[squarecol*3:squarecol*3+3] for row in board[squarerow*3:squarerow*3+3]]
 
+def get_square_values(square_array):
+    return [x for row in square_array for x in row]
 
 # PRINTING/FORMATTING:
 def print_bare_board(board):
