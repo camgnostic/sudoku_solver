@@ -35,14 +35,15 @@ class SubBoard(object):
         self.cols = []
         self.squares = []
         self.bare_board = board
-        size = int(math.sqrt(len(board)))
+        self.size = len(board)
+        self.sq_size = int(math.sqrt(self.size))
         for row in board:
             self.rows.append(Row(row))
         for col in range(len(board[0])):
             self.cols.append(Column([r[col] for r in board]))
-        for sqr in range(size):
+        for sqr in range(self.sq_size):
             sq_row = []
-            for sqc in range(size):
+            for sqc in range(self.sq_size):
                 sq_row.append(Square(get_square(board, sqr, sqc)))
             self.squares.append(sq_row)
 
@@ -58,6 +59,17 @@ class SubBoard(object):
     def square(self):
         return self.squares
 
+    def get_square(self, *args):
+        if len(args) == 1:
+            sqr, sqc = args[0][0], args[0][1]
+        else:
+            sqr, sqc = args[0], args[1]
+        return self.squares[sqr][sqc]
+
+    def shadow(self, row, col):
+        return (self.rows[row], self.cols[col],
+                self.get_square(cell_to_square(row, col, self.size)))
+
 
 # PUZZLE ARRAY -> PIECES FUNCTIONS
 def get_square(board, squarerow, squarecol):
@@ -67,6 +79,10 @@ def get_square(board, squarerow, squarecol):
 
 def get_square_values(square_array):
     return [x for row in square_array for x in row]
+
+def cell_to_square(row, col, size=9):
+    square_size = int(math.sqrt(size))
+    return (int(row/square_size), int(col/square_size))
 
 # PRINTING/FORMATTING:
 def print_bare_board(board):

@@ -3,6 +3,7 @@
 import helper_functions as hf
 import sample_puzzles as puzzles
 import unittest
+import mock
 
 class TestPrintingFunctions(unittest.TestCase):
     def test_pretty_print_bare_board(self):
@@ -10,6 +11,12 @@ class TestPrintingFunctions(unittest.TestCase):
         pretty = puzzles.pretty_medium_puzzle
         assert hf.print_bare_board(puzzle) == pretty, \
             '%s\n != \n%s' % (repr(pretty), repr(hf.print_bare_board(puzzle)))
+
+class TestBasicHelpers(unittest.TestCase):
+    def test_coordinates_to_square_coordinates(self):
+        assert hf.cell_to_square(0, 0, 9) == (0, 0)
+        assert hf.cell_to_square(2, 7, 9) == (0, 2)
+        assert hf.cell_to_square(1, 3, 4) == (0, 1)
 
 class TestRowFunctions(unittest.TestCase):
     unsolved_row = puzzles.medium_puzzle[0]
@@ -111,6 +118,22 @@ class TestSubBoard(unittest.TestCase):
         assert row == subboard.row[0].values
         assert col == subboard.col[3].values
         assert square == subboard.square[2][2].values
+
+    def test_subboard_returns_row_and_col_and_square_for_cell(self):
+        subboard = hf.SubBoard(self.puzzle)
+        row = subboard.row[2]
+        col = subboard.col[7]
+        square = subboard.square[0][2]
+        assert subboard.shadow(2, 7) == (row, col, square)
+    
+    def test_subboard_calls_remaining_on_cell_shadow(self):
+        subboard = hf.SubBoard(self.puzzle)
+        mock_cellset = mock.Mock()
+        mock_cellset.remaining.return_value = 2
+        mock_shadow = mock.Mock()
+        mock_shadow.return_value = (mock_cellset, mock_cellset, mock_cellset)
+        with mock.patch.object(subboard, 'shadow', mock_shadow):
+            possibilities = subboard.get_possibilities(4, 3)
 
 
 if __name__ == '__main__':
