@@ -71,9 +71,8 @@ class SubBoard(object):
                 self.get_square(cell_to_square(row, col, self.size)))
 
     def get_possibilities(self, row, col):
-        shadow = self.shadow(row, col)
-        remaining = [x.remaining() for x in shadow]
-        return combine_remaining(remaining)
+        remaining = combine_remaining([cellset.remaining() for cellset in self.shadow(row, col)])
+        return remaining
 
 
 # PUZZLE ARRAY -> PIECES FUNCTIONS

@@ -49,6 +49,10 @@ class TestRowFunctions(unittest.TestCase):
         unsolved_row = hf.Row(tiny_row_unsolved)
         assert not unsolved_row.solved
 
+    def test_row_remaining(self):
+        row = hf.Row([1, 2, 3, 0])
+        assert row.remaining() == (4,)
+
 class TestColumnFunctions(unittest.TestCase):
     unsolved_column = [row[0] for row in puzzles.medium_puzzle]
     solved_column = [row[0] for row in puzzles.medium_solution]
@@ -142,6 +146,13 @@ class TestSubBoard(unittest.TestCase):
             mock_shadow.return_value = (mock_cellset, mock_cellset, mock_cellset)
             possibilities = subboard.get_possibilities(4, 3)
             assert mock_cellset.remaining.call_count == 3, mock_cellset.call_count
+
+    @mock.patch('helper_functions.combine_remaining')
+    def test_subboard_raises_when_no_possibilities(self, mock_combine):
+        mock_combine.return_value = tuple([])
+        subboard = hf.SubBoard(self.puzzle)
+        with self.assertRaises(hf.Contradiction):
+            subboard.get_possibilities(1, 1)
 
 
 
