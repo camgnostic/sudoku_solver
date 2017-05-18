@@ -103,10 +103,14 @@ class TestSubBoard(unittest.TestCase):
     def test_subboard_exists(self):
         subboard = hf.SubBoard(self.puzzle)
 
-    def test_subboard_returns_row(self):
+    def test_subboard_returns_row_and_col(self):
         row = self.puzzle[0]
+        col = [r[3] for r in self.puzzle]
+        square = hf.get_square_values(hf.get_square(self.puzzle, 2, 2))
         subboard = hf.SubBoard(self.puzzle)
-        assert row == subboard.row[0]
+        assert row == subboard.row[0].values
+        assert col == subboard.col[3].values
+        assert square == subboard.square[2][2].values
 
 
 if __name__ == '__main__':

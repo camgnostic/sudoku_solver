@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import math
+import itertools
 
 # BOARD SUBCLASSES:
 class CellSet(object):
@@ -30,7 +31,32 @@ class Square(CellSet):
 class SubBoard(object):
     """coordinates rows, columns, squares in a sudoku board"""
     def __init__(self, board):
-        pass
+        self.rows = []
+        self.cols = []
+        self.squares = []
+        self.bare_board = board
+        size = int(math.sqrt(len(board)))
+        for row in board:
+            self.rows.append(Row(row))
+        for col in range(len(board[0])):
+            self.cols.append(Column([r[col] for r in board]))
+        for sqr in range(size):
+            sq_row = []
+            for sqc in range(size):
+                sq_row.append(Square(get_square(board, sqr, sqc)))
+            self.squares.append(sq_row)
+
+    @property
+    def row(self):
+        return self.rows
+
+    @property
+    def col(self):
+        return self.cols
+
+    @property
+    def square(self):
+        return self.squares
 
 
 # PUZZLE ARRAY -> PIECES FUNCTIONS
