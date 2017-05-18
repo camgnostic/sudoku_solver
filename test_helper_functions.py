@@ -193,13 +193,19 @@ class TestSubBoard(unittest.TestCase):
     @unittest.skip('subunits')
     def test_subboard_solves_only_spot(self):
         subboard = hf.SubBoard(puzzles.single_spot_puzzle)
-        assert subboard.solve(1, 1)
+        assert subboard.only_spots()
         assert subboard.row[1][1] == 1
+
+    def test_allsquares(self):
+        subboard = hf.SubBoard(puzzles.simple_puzzle)
+        assert subboard.square[0][0] == subboard.allsquares[0]
+        assert subboard.square[0][1] == subboard.allsquares[1]
+        assert subboard.square[2][2] == subboard.allsquares[8]
 
     def test_subboard_unshadow(self):
         subboard = hf.SubBoard(puzzles.simple_puzzle)
         assert subboard.rows[:3] + subboard.rows[4:] == subboard.unshadow(3, 6)[0]
-        assert subboard.cols[:6] + subboard.cols[6:] == subboard.unshadow(3, 6)[1]
+        assert subboard.cols[:6] + subboard.cols[7:] == subboard.unshadow(3, 6)[1]
         assert subboard.allsquares[:5] + subboard.allsquares[6:] == subboard.unshadow(3, 6)[2]
 
 

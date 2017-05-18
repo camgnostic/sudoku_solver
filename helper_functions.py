@@ -87,6 +87,14 @@ class SubBoard(object):
         return (self.rows[row], self.cols[col],
                 self.get_square(cell_to_square(row, col, self.size)))
 
+    def unshadow(self, row, col):
+        return ([r for rc, r in enumerate(self.rows) if rc != row],
+                [c for cc, c in enumerate(self.cols) if cc != col],
+                [s for sc, s in enumerate(self.allsquares) if sc != cell_to_allsquare_index(row, col)])
+        return (self.rows[:row] + self.rows[row+1:],
+                self.cols[:col] + self.cols[col+1:],
+                self.allsquares[:cell_to_square_index(row, col)] + self.allsquares[cell_to_square_index(row,col) + 1])
+
     def get_possibilities(self, row, col):
         remaining = combine_remaining(*[cellset.remaining() for cellset in self.shadow(row, col)])
         if len(remaining) == 0:
@@ -134,6 +142,10 @@ def cell_to_square(row, col, size=9):
 def cell_to_square_index(row, col, size=9):
     square_size = int(math.sqrt(size))
     return int(row%square_size)*square_size + int(col%square_size)
+
+def cell_to_allsquare_index(row, col, size=9):
+    square_size = int(math.sqrt(size))
+    return int(row/square_size)*square_size + int(col/square_size)
 
 def board_iterator(size):
     return itertools.product(range(size), repeat=2)
