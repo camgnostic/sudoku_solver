@@ -46,3 +46,6 @@ def print_bare_board(board):
         pretty += ' %d \n' % row[-1]
     return pretty.replace('0', ' ')[:-1]
 
+# OTHER HELPERS
+class Contradiction(Exception):
+    pass

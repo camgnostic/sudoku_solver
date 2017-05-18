@@ -3,6 +3,7 @@ import itertools
 import math
 
 from helper_functions import (print_bare_board,
+                              Contradiction,
                               Row,
                               Column,
                               Square,

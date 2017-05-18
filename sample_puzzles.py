@@ -80,6 +80,13 @@ tiny_solution = [
     [2, 4, 1, 3]
 ]
 
+tiny_insoluble = [
+    [4, 2, 3, 1],
+    [3, 0, 4, 2],
+    [0, 1, 2, 4],
+    [2, 4, 1, 3]
+]
+
 # FORMATTING / PRINTING:
 pretty_medium_puzzle = '\n'.join([
  ' 5 | 3 |   |   | 7 |   |   |   |   ',
