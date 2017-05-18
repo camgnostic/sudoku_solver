@@ -71,13 +71,13 @@ class TestSquareFunctions(unittest.TestCase):
         assert hf.get_square(self.whole_puzzle, 0, 2) == self.square_0_2, \
             '%s != %s' % (str(hf.get_square(self.whole_puzzle, 0, 2)), str(self.square_0_2))
 
+    def test_square_values_from_array(self):
+        assert hf.get_square_values(self.square_0_2) == self.square_0_2_values
+
     def test_tiny_square_values_identified(self):
         assert hf.get_square(puzzles.tiny_puzzle, 1, 0) == [[0, 0], [0, 4]], \
             hf.get_square(puzzles.tiny_puzzle, 1, 0)
         assert hf.get_square_values([[2, 0], [0, 3]]) == [2, 0, 0, 3]
-
-    def test_square_values_from_array(self):
-        assert hf.get_square_values(self.square_0_2) == self.square_0_2_values
 
     def test_square_exists(self):
         square = hf.Square(self.unsolved_square)
