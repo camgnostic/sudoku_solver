@@ -13,8 +13,33 @@ class TestPrintingFunctions(unittest.TestCase):
 
 class TestRowFunctions(unittest.TestCase):
     unsolved_row = puzzles.medium_puzzle[0]
+    solved_row = puzzles.medium_solution[0]
+
     def test_row_exists(self):
-        row = hf.Row(unsolved_row)
+        row = hf.Row(self.unsolved_row)
+
+    def test_row_identifies_unsolved(self):
+        row = hf.Row(self.unsolved_row)
+        assert not row.solved
+
+    def test_row_identifies_solved(self):
+        row = hf.Row(self.solved_row)
+        assert row.solved
+
+class TestColumnFunctions(unittest.TestCase):
+    unsolved_column = [row[0] for row in puzzles.medium_puzzle]
+    solved_column = [row[0] for row in puzzles.medium_solution]
+
+    def test_column_exists(self):
+        column = hf.Column(self.unsolved_column)
+
+    def test_column_identifies_unsolved(self):
+        column = hf.Column(self.unsolved_column)
+        assert not column.solved
+
+    def test_column_identifies_solved(self):
+        column = hf.Column(self.solved_column)
+        assert column.solved
         
 
 
