@@ -66,6 +66,20 @@ difficult_solution = [
     [2, 8, 4, 7, 9, 5, 6, 1, 3],
     [1, 3, 9, 6, 4, 2, 8, 5, 7]]
 
+tiny_puzzle = [
+    [4, 0, 3, 0],
+    [0, 1, 0, 0],
+    [0, 0, 2, 0],
+    [0, 4, 0, 3]
+]
+
+tiny_solution = [
+    [4, 2, 3, 1],
+    [3, 1, 4, 2],
+    [1, 3, 2, 4],
+    [2, 4, 1, 3]
+]
+
 # FORMATTING / PRINTING:
 pretty_medium_puzzle = '\n'.join([
  ' 5 | 3 |   |   | 7 |   |   |   |   ',

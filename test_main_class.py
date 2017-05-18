@@ -25,6 +25,15 @@ class TestBoardClass(unittest.TestCase):
         unsolved_board = mc.Board(puzzles.medium_puzzle)
         assert not unsolved_board.solved
 
+    def test_board_loads_tiny_puzzle(self):
+        board = mc.Board(puzzles.tiny_puzzle)
+
+    def test_board_identifies_solved_tiny_puzzle(self):
+        solved_board = mc.Board(puzzles.tiny_solution)
+        unsolved_board = mc.Board(puzzles.tiny_puzzle)
+        assert solved_board.solved
+        assert not unsolved_board.solved
+
 
 if __name__ == '__main__':
     unittest.main()

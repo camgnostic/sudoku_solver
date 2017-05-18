@@ -26,6 +26,14 @@ class TestRowFunctions(unittest.TestCase):
         row = hf.Row(self.solved_row)
         assert row.solved
 
+    def test_row_handles_tiny(self):
+        tiny_row_solved = [1, 2, 3, 4]
+        tiny_row_unsolved = [1, 2, 0, 4]
+        solved_row = hf.Row(tiny_row_solved)
+        assert solved_row.solved
+        unsolved_row = hf.Row(tiny_row_unsolved)
+        assert not unsolved_row.solved
+
 class TestColumnFunctions(unittest.TestCase):
     unsolved_column = [row[0] for row in puzzles.medium_puzzle]
     solved_column = [row[0] for row in puzzles.medium_solution]
