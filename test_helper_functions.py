@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import itertools
 import helper_functions as hf
 import sample_puzzles as puzzles
 import unittest
@@ -25,6 +26,17 @@ class TestBasicHelpers(unittest.TestCase):
         assert hf.combine_remaining(*one[0:3]) == one[3]
         assert hf.combine_remaining(*two[0:3]) == two[3]
         assert hf.combine_remaining(*three[0:3]) == three[3]
+    
+    def test_board_iterators(self):
+        fourby = list(itertools.product([0, 1, 2, 3], repeat=2))
+        nineby = list(itertools.product(range(9), repeat=2))
+        assert list(hf.board_iterator(4)) == fourby
+        assert list(hf.board_iterator(9)) == nineby
+
+    def test_get_unsolved_coords(self):
+        board = [[1, 0, 2, 3], [0, 0, 1, 4], [3, 4, 0, 1], [0, 0, 3, 2]]
+        coords = [(0, 1), (1, 0), (1, 1), (2, 2), (3, 0), (3, 1)]
+        assert hf.get_unsolved(board) == coords
 
 class TestRowFunctions(unittest.TestCase):
     unsolved_row = puzzles.medium_puzzle[0]
@@ -51,7 +63,7 @@ class TestRowFunctions(unittest.TestCase):
 
     def test_row_remaining(self):
         row = hf.Row([1, 2, 3, 0])
-        assert row.remaining() == (4,)
+        assert row.remaining() == (4,), row.remaining()
 
 class TestColumnFunctions(unittest.TestCase):
     unsolved_column = [row[0] for row in puzzles.medium_puzzle]

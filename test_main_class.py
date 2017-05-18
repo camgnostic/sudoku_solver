@@ -37,7 +37,7 @@ class TestBoardClass(unittest.TestCase):
     def test_board_identifies_insoluble_tiny_puzzle(self):
         insoluble_board = mc.Board(puzzles.tiny_insoluble)
         with self.assertRaises(mc.Contradiction):
-            insoluble_board.solved
+            insoluble_board.soluble
 
 
 if __name__ == '__main__':

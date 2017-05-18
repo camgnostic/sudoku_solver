@@ -13,6 +13,9 @@ class CellSet(object):
     def solved(self):
         return self.digits == set(self.values)
 
+    def remaining(self):
+        return tuple(sorted(list(self.digits - set(self.values))))
+
 class Row(CellSet):
     """one row in a sudoku board"""
     pass
@@ -59,6 +62,10 @@ class SubBoard(object):
     def square(self):
         return self.squares
 
+    @property
+    def allsquares(self):
+        return sum([row for row in self.squares], [])
+
     def get_square(self, *args):
         if len(args) == 1:
             sqr, sqc = args[0][0], args[0][1]
@@ -71,8 +78,15 @@ class SubBoard(object):
                 self.get_square(cell_to_square(row, col, self.size)))
 
     def get_possibilities(self, row, col):
-        remaining = combine_remaining([cellset.remaining() for cellset in self.shadow(row, col)])
+        remaining = combine_remaining(*[cellset.remaining() for cellset in self.shadow(row, col)])
+        if len(remaining) == 0:
+            raise Contradiction("helpful error message")
         return remaining
+
+    def check_solubility(self):
+        unsolved = get_unsolved(self.bare_board)
+        for row, col in unsolved:
+            self.get_possibilities(row, col)
 
 
 # PUZZLE ARRAY -> PIECES FUNCTIONS
@@ -87,6 +101,16 @@ def get_square_values(square_array):
 def cell_to_square(row, col, size=9):
     square_size = int(math.sqrt(size))
     return (int(row/square_size), int(col/square_size))
+
+def board_iterator(size):
+    return itertools.product(range(size), repeat=2)
+
+def get_unsolved(board):
+    """takes a bare board and returns coordinates of all unsolved squares"""
+    coords = []
+    for row in range(len(board)):
+        coords += [(row, col) for col in range(len(board[row])) if board[row][col] == 0]
+    return coords
 
 # PRINTING/FORMATTING:
 def print_bare_board(board):
@@ -103,7 +127,7 @@ class Contradiction(Exception):
 
 def combine_remaining(*args):
     """takes a tuple of tuples/lists/sets of digits and returns the set intersection"""
-    sets = [set([x,]) for x in args if type(x) == int] + [set(x) for x in args if type(x) != int]
+    sets = [set([x,]) for x in args if type(x) == int] + [set(x) for x in args if type(x) in (list, tuple)] + [x for x in args if type(x) == set]
     remaining = sets[0]
     for s in sets:
         remaining = remaining.intersection(s)

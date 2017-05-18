@@ -23,4 +23,8 @@ class Board(object):
     def solved(self):
         return (all([row.solved for row in self.board.rows]) and
                 all([col.solved for col in self.board.cols]) and
-                all([square.solved for square in self.board.squares]))
+                all([square.solved for square in self.board.allsquares]))
+
+    @property
+    def soluble(self):
+        self.board.check_solubility()
