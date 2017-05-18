@@ -11,6 +11,20 @@ class TestBoardClass(unittest.TestCase):
     def test_board_loads_puzzle(self):
         board = mc.Board(puzzles.simple_puzzle)
 
+    def test_board_prints_output_prettily(self):
+        pretty_board = puzzles.pretty_medium_puzzle
+        board = mc.Board(puzzles.medium_puzzle)
+        assert pretty_board == str(board), \
+            '%s \n should look like: %s' % (pretty_board, str(board))
+
+    def test_board_identifies_solved_puzzle(self):
+        solved_board = mc.Board(puzzles.medium_solution)
+        assert solved_board.solved
+
+    def test_board_identifies_unsolved_puzzle(self):
+        unsolved_board = mc.Board(puzzles.medium_puzzle)
+        assert not unsolved_board.solved
+
 
 if __name__ == '__main__':
     unittest.main()
