@@ -11,6 +11,12 @@ class TestPrintingFunctions(unittest.TestCase):
         assert hf.print_bare_board(puzzle) == pretty, \
             '%s\n != \n%s' % (repr(pretty), repr(hf.print_bare_board(puzzle)))
 
+class TestRowFunctions(unittest.TestCase):
+    unsolved_row = puzzles.medium_puzzle[0]
+    def test_row_exists(self):
+        row = hf.Row(unsolved_row)
+        
+
 
 if __name__ == '__main__':
     unittest.main()

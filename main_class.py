@@ -10,3 +10,7 @@ class Board(object):
 
     def __str__(self):
         return print_bare_board(self.bare_board)
+
+    @property
+    def solved(self):
+        return False
