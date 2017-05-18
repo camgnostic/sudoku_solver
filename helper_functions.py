@@ -20,6 +20,12 @@ class Column(CellSet):
     pass
 
 
+# PUZZLE ARRAY -> PIECES FUNCTIONS
+def get_square(board, squarerow, squarecol):
+    """return the section of board corresponding to a square region"""
+    return [row[squarecol*3:squarecol*3+3] for row in board[squarerow*3:squarerow*3+3]]
+
+
 # PRINTING/FORMATTING:
 def print_bare_board(board):
     pretty = ''
