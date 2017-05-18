@@ -27,6 +27,11 @@ class Square(CellSet):
         values = get_square_values(rows)
         super(Square, self).__init__(values)
 
+class SubBoard(object):
+    """coordinates rows, columns, squares in a sudoku board"""
+    def __init__(self, board):
+        pass
+
 
 # PUZZLE ARRAY -> PIECES FUNCTIONS
 def get_square(board, squarerow, squarecol):

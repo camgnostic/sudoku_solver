@@ -98,6 +98,16 @@ class TestSquareFunctions(unittest.TestCase):
         unsolved_sq = hf.Square(tiny_sq_unsolved)
         assert not unsolved_sq.solved
 
+class TestSubBoard(unittest.TestCase):
+    puzzle = puzzles.medium_puzzle
+    def test_subboard_exists(self):
+        subboard = hf.SubBoard(self.puzzle)
+
+    def test_subboard_returns_row(self):
+        row = self.puzzle[0]
+        subboard = hf.SubBoard(self.puzzle)
+        assert row == subboard.row[0]
+
 
 if __name__ == '__main__':
     unittest.main()
