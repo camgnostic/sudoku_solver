@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import math
 import itertools
+import copy
 
 # BOARD SUBCLASSES:
 class CellSet(object):
@@ -15,6 +16,15 @@ class CellSet(object):
 
     def remaining(self):
         return tuple(sorted(list(self.digits - set(self.values))))
+
+    def __repr__(self):
+        return str(self.values)
+
+    def __getitem__(self, index):
+        return self.values[index]
+
+    def __setitem__(self, index, value):
+        self.values[index] = value
 
 class Row(CellSet):
     """one row in a sudoku board"""
@@ -41,7 +51,7 @@ class SubBoard(object):
         self.size = len(board)
         self.sq_size = int(math.sqrt(self.size))
         for row in board:
-            self.rows.append(Row(row))
+            self.rows.append(Row(copy.copy(row)))
         for col in range(len(board[0])):
             self.cols.append(Column([r[col] for r in board]))
         for sqr in range(self.sq_size):
@@ -88,6 +98,25 @@ class SubBoard(object):
         for row, col in unsolved:
             self.get_possibilities(row, col)
 
+    def update(self, row, col, new_value):
+        self.bare_board[row][col] = new_value
+        self.rows[row][col] = new_value
+        self.cols[col][row] = new_value
+        self.get_square(cell_to_square(row, col))[cell_to_square_index(row, col)] = new_value
+
+    def solve(self, row, col):
+        if self.bare_board[row][col] != 0:
+            return True
+        possibilities = self.get_possibilities(row, col)
+        new_value = list(possibilities)[0] if len(possibilities) == 1 else False
+        if new_value:
+            new_value = self.update(row, col, new_value)
+        return new_value
+
+    def solve_all_easy(self):
+        for row, col in get_unsolved(self.bare_board):
+            self.solve(row, col)
+
 
 # PUZZLE ARRAY -> PIECES FUNCTIONS
 def get_square(board, squarerow, squarecol):
@@ -101,6 +130,10 @@ def get_square_values(square_array):
 def cell_to_square(row, col, size=9):
     square_size = int(math.sqrt(size))
     return (int(row/square_size), int(col/square_size))
+
+def cell_to_square_index(row, col, size=9):
+    square_size = int(math.sqrt(size))
+    return int(row%square_size)*square_size + int(col%square_size)
 
 def board_iterator(size):
     return itertools.product(range(size), repeat=2)

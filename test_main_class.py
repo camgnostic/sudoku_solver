@@ -34,10 +34,15 @@ class TestBoardClass(unittest.TestCase):
         assert solved_board.solved
         assert not unsolved_board.solved
 
-    def test_board_identifies_insoluble_tiny_puzzle(self):
+    def test_board_identifies_insoluble_for_no_possibilities_tiny_puzzle(self):
         insoluble_board = mc.Board(puzzles.tiny_insoluble)
-        with self.assertRaises(mc.Contradiction):
-            insoluble_board.soluble
+        assert not insoluble_board.soluble
+
+    def test_board_solves_single_possibility_spots(self):
+        soluble_board = mc.Board(puzzles.simple_puzzle)
+        assert soluble_board.solve_easy()
+        assert soluble_board.solved
+        assert soluble_board.solution == puzzles.simple_solution
 
 
 if __name__ == '__main__':

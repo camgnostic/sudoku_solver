@@ -26,5 +26,20 @@ class Board(object):
                 all([square.solved for square in self.board.allsquares]))
 
     @property
+    def solution(self):
+        if self.solved:
+            return self.board.bare_board
+        return False
+
+    @property
     def soluble(self):
-        self.board.check_solubility()
+        try:
+            self.board.check_solubility()
+        except Contradiction:
+            return False
+        else:
+            return True
+
+    def solve_easy(self):
+        self.board.solve_all_easy()
+        return self.solved

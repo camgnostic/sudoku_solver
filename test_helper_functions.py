@@ -166,6 +166,41 @@ class TestSubBoard(unittest.TestCase):
         with self.assertRaises(hf.Contradiction):
             subboard.get_possibilities(1, 1)
 
+    def test_subboard_solve_square(self):
+        subboard = hf.SubBoard(puzzles.simple_puzzle)
+        assert subboard.get_possibilities(0, 1) == (2,)
+        with mock.patch.object(subboard, 'update') as mock_update:
+            assert subboard.solve(0, 1)
+            mock_update.assert_called_with(0, 1, 2)
+            mock_update.reset_mock()
+            assert subboard.solve(1, 1)
+            mock_update.assert_not_called()
+
+    def test_subboard_fails_to_solve_unsolvable_square(self):
+        subboard = hf.SubBoard(puzzles.difficult_puzzle)
+        with mock.patch.object(subboard, 'update') as mock_update:
+            assert not subboard.solve(0, 1)
+            mock_update.assert_not_called()
+
+    def test_subboard_updates_values(self):
+        subboard = hf.SubBoard(puzzles.difficult_puzzle)
+        subboard.update(0, 1, 2)
+        assert subboard.bare_board[0][1] == 2
+        assert subboard.row[0][1] == 2
+        assert subboard.col[1][0] == 2
+        assert subboard.square[0][0][1] == 2
+
+    @unittest.skip('subunits')
+    def test_subboard_solves_only_spot(self):
+        subboard = hf.SubBoard(puzzles.single_spot_puzzle)
+        assert subboard.solve(1, 1)
+        assert subboard.row[1][1] == 1
+
+    def test_subboard_unshadow(self):
+        subboard = hf.SubBoard(puzzles.simple_puzzle)
+        assert subboard.rows[:3] + subboard.rows[4:] == subboard.unshadow(3, 6)[0]
+        assert subboard.cols[:6] + subboard.cols[6:] == subboard.unshadow(3, 6)[1]
+        assert subboard.allsquares[:5] + subboard.allsquares[6:] == subboard.unshadow(3, 6)[2]
 
 
 if __name__ == '__main__':
