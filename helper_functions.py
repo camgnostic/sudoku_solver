@@ -19,6 +19,12 @@ class Column(CellSet):
     """one column in a sudoku board"""
     pass
 
+class Square(CellSet):
+    """one square region in a sudoku board"""
+    def __init__(self, rows):
+        self.rows = rows
+        self.values = get_square_values(rows)
+
 
 # PUZZLE ARRAY -> PIECES FUNCTIONS
 def get_square(board, squarerow, squarecol):

@@ -46,6 +46,8 @@ class TestSquareFunctions(unittest.TestCase):
     square_0_2 = [[0,0,0], [0,0,0], [0,6,0]]
     square_1_1 = [[0,6,0], [8,0,3], [0,2,0]]
     square_0_2_values = [0,0,0,0,0,0,0,6,0]
+    solved_square = hf.get_square(puzzles.medium_solution, 1, 1)
+    unsolved_square = hf.get_square(puzzles.medium_puzzle, 1, 1)
     def test_square_values_identified(self):
         assert hf.get_square(self.whole_puzzle, 1, 1) == self.square_1_1, \
             '%s != %s' % (str(hf.get_square(self.whole_puzzle, 1, 1)), str(self.square_1_1))
@@ -54,6 +56,17 @@ class TestSquareFunctions(unittest.TestCase):
 
     def test_square_values_from_array(self):
         assert hf.get_square_values(self.square_0_2) == self.square_0_2_values
+
+    def test_square_exists(self):
+        square = hf.Square(self.unsolved_square)
+
+    def test_square_identifies_unsolved(self):
+        square = hf.Square(self.unsolved_square)
+        assert not square.solved
+
+    def test_square_identifies_solved(self):
+        square = hf.Square(self.solved_square)
+        assert square.solved
 
 
 if __name__ == '__main__':
