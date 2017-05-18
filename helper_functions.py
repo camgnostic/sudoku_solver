@@ -70,6 +70,11 @@ class SubBoard(object):
         return (self.rows[row], self.cols[col],
                 self.get_square(cell_to_square(row, col, self.size)))
 
+    def get_possibilities(self, row, col):
+        shadow = self.shadow(row, col)
+        remaining = [x.remaining() for x in shadow]
+        return combine_remaining(remaining)
+
 
 # PUZZLE ARRAY -> PIECES FUNCTIONS
 def get_square(board, squarerow, squarecol):
@@ -96,3 +101,11 @@ def print_bare_board(board):
 # OTHER HELPERS
 class Contradiction(Exception):
     pass
+
+def combine_remaining(*args):
+    """takes a tuple of tuples/lists/sets of digits and returns the set intersection"""
+    sets = [set([x,]) for x in args if type(x) == int] + [set(x) for x in args if type(x) != int]
+    remaining = sets[0]
+    for s in sets:
+        remaining = remaining.intersection(s)
+    return tuple(sorted(list(remaining)))

@@ -18,6 +18,14 @@ class TestBasicHelpers(unittest.TestCase):
         assert hf.cell_to_square(2, 7, 9) == (0, 2)
         assert hf.cell_to_square(1, 3, 4) == (0, 1)
 
+    def test_combine_remaining(self):
+        one = ([1, 2, 3, 4], [1, 2, 3], [1, 2], (1, 2))
+        two = ((4, 5), (4), (3, 4, 5, 6, 7), (4, ))
+        three = (set([2, 3]), set([4, 5]), set([6, 7]), ())
+        assert hf.combine_remaining(*one[0:3]) == one[3]
+        assert hf.combine_remaining(*two[0:3]) == two[3]
+        assert hf.combine_remaining(*three[0:3]) == three[3]
+
 class TestRowFunctions(unittest.TestCase):
     unsolved_row = puzzles.medium_puzzle[0]
     solved_row = puzzles.medium_solution[0]
@@ -130,10 +138,11 @@ class TestSubBoard(unittest.TestCase):
         subboard = hf.SubBoard(self.puzzle)
         mock_cellset = mock.Mock()
         mock_cellset.remaining.return_value = 2
-        mock_shadow = mock.Mock()
-        mock_shadow.return_value = (mock_cellset, mock_cellset, mock_cellset)
-        with mock.patch.object(subboard, 'shadow', mock_shadow):
+        with mock.patch.object(subboard, 'shadow') as mock_shadow:
+            mock_shadow.return_value = (mock_cellset, mock_cellset, mock_cellset)
             possibilities = subboard.get_possibilities(4, 3)
+            assert mock_cellset.remaining.call_count == 3, mock_cellset.call_count
+
 
 
 if __name__ == '__main__':
