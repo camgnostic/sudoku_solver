@@ -49,6 +49,14 @@ class TestColumnFunctions(unittest.TestCase):
         column = hf.Column(self.solved_column)
         assert column.solved
 
+    def test_column_handles_tiny(self):
+        tiny_col_solved = [1, 2, 3, 4]
+        tiny_col_unsolved = [1, 2, 0, 4]
+        solved_col = hf.Column(tiny_col_solved)
+        assert solved_col.solved
+        unsolved_col = hf.Column(tiny_col_unsolved)
+        assert not unsolved_col.solved
+
 class TestSquareFunctions(unittest.TestCase):
     whole_puzzle = puzzles.medium_puzzle
     square_0_2 = [[0,0,0], [0,0,0], [0,6,0]]
@@ -56,11 +64,17 @@ class TestSquareFunctions(unittest.TestCase):
     square_0_2_values = [0,0,0,0,0,0,0,6,0]
     solved_square = hf.get_square(puzzles.medium_solution, 1, 1)
     unsolved_square = hf.get_square(puzzles.medium_puzzle, 1, 1)
+
     def test_square_values_identified(self):
         assert hf.get_square(self.whole_puzzle, 1, 1) == self.square_1_1, \
             '%s != %s' % (str(hf.get_square(self.whole_puzzle, 1, 1)), str(self.square_1_1))
         assert hf.get_square(self.whole_puzzle, 0, 2) == self.square_0_2, \
             '%s != %s' % (str(hf.get_square(self.whole_puzzle, 0, 2)), str(self.square_0_2))
+
+    def test_tiny_square_values_identified(self):
+        assert hf.get_square(puzzles.tiny_puzzle, 1, 0) == [[0, 0], [0, 4]], \
+            hf.get_square(puzzles.tiny_puzzle, 1, 0)
+        assert hf.get_square_values([[2, 0], [0, 3]]) == [2, 0, 0, 3]
 
     def test_square_values_from_array(self):
         assert hf.get_square_values(self.square_0_2) == self.square_0_2_values
@@ -75,6 +89,14 @@ class TestSquareFunctions(unittest.TestCase):
     def test_square_identifies_solved(self):
         square = hf.Square(self.solved_square)
         assert square.solved
+
+    def test_square_handles_tiny(self):
+        tiny_sq_solved = [[1, 2], [3, 4]]
+        tiny_sq_unsolved = [[1, 2], [0, 4]]
+        solved_sq = hf.Square(tiny_sq_solved)
+        assert solved_sq.solved
+        unsolved_sq = hf.Square(tiny_sq_unsolved)
+        assert not unsolved_sq.solved
 
 
 if __name__ == '__main__':
