@@ -141,9 +141,9 @@ class TestSquareHelpers(unittest.TestCase):
     def test_get_square_index(self):
         puzzle = [range(1, 10)]*9
         indexer = solve_tools.get_square_index(puzzle)
-        self.assertEqual(indexer(0, 0)(4), (1, 0))
-        self.assertEqual(indexer(0, 0)(9), (2, 2))
-        self.assertEqual(indexer(6, 3)(2), (6, 4))
+        self.assertEqual(indexer(0, 0)(3), (1, 0))
+        self.assertEqual(indexer(0, 0)(8), (2, 2))
+        self.assertEqual(indexer(6, 3)(1), (6, 4))
         self.assertEqual(indexer(6, 3)(7), (8, 4))
 
 if __name__ == '__main__':

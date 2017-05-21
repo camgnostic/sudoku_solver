@@ -71,9 +71,10 @@ def get_square_flat(sqr, sqc):
 
 def get_square_index(puzzle):
     """ returns indexer that converts placement in a list of square values to board row and col"""
-    def indexer(row, col):
+    step = int(math.sqrt(len(puzzle)))
+    def indexer(sqr, sqc):
         def this_square_index(index):
-            return (1, 0)
+            return (sqr+int(index/step), sqc + index%step)
         return this_square_index
     return indexer
 
