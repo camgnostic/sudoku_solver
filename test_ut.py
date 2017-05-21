@@ -45,12 +45,30 @@ class TestGetNextStep(unittest.TestCase):
             puzzle.append([x,] + [0]*8)
         self.assertEqual(solve_tools.switcher(puzzle).__name__,
                          solve_tools.solve_col(0).__name__)
-        # and for a row in the middle:
+        # and for a col in the middle:
         puzzle = []
         for x in range(9):
             puzzle.append([0]*4 + [x,] + [0]*4)
         self.assertEqual(solve_tools.switcher(puzzle).__name__,
                          solve_tools.solve_col(4).__name__)
+
+    def test_one_unsolved_in_square(self):
+        # for the first square:
+        puzzle = [
+            [1, 2, 3] + [0]*6,
+            [4, 5, 6] + [0]*6,
+            [7, 0, 9] + [0]*6
+        ] + [[0]*9]*6
+        self.assertEqual(solve_tools.switcher(puzzle).__name__,
+                         solve_tools.solve_square(0, 0).__name__)
+        # and for a square in the middle:
+        puzzle = [[0]*9]*3 + [
+            [0]*3 + [1, 2, 3] + [0]*3,
+            [0]*3 + [4, 5, 6] + [0]*3,
+            [0]*3 + [7, 0, 9] + [0]*3
+        ] + [[0]*9]*3
+        self.assertEqual(solve_tools.switcher(puzzle).__name__,
+                         solve_tools.solve_square(3, 3).__name__)
 
 class TestSolveRowAndCol(unittest.TestCase):
     def test_solve_row0(self):
@@ -76,6 +94,20 @@ class TestSolveRowAndCol(unittest.TestCase):
         for x in range(9):
             puzzle.append([0]*5 + [x,] + [0]*3)
         self.assertEqual(solve_col(puzzle)[0][5], 9)
+
+class TestSquareIterator(unittest.TestCase):
+    large_puzzle = [[0]*9]*9
+    large_iterator = [(0,0), (0, 3), (0, 6), (3, 0), (3, 3), (3, 6), (6, 0), (6, 3), (6, 6)]
+    small_puzzle = [[0]*4]*4
+    small_iterator = [(0,0), (0, 2), (2, 0), (2, 2)]
+
+    def test_large_puzzle_iterator(self):
+        self.assertEqual(list(solve_tools.square_iterator(self.large_puzzle)),
+                         self.large_iterator)
+
+    def test_small_puzzle_iterator(self):
+        self.assertEqual(list(solve_tools.square_iterator(self.small_puzzle)),
+                         self.small_iterator)
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import itertools
+import math
 
 def switcher(puzzle):
     """puzzle -> None (if solved) next_step_function (if not solved)"""
@@ -13,6 +14,9 @@ def switcher(puzzle):
     for c in range(len(puzzle[0])):
         if [row[c] for row in puzzle].count(0) == 1:
             return solve_col(c)
+    for r, c in square_iterator(puzzle):
+        if get_square_flat(r, c)(puzzle).count(0) == 1:
+            return solve_square(r, c)
     raise
 
 def is_solved(puzzle):
@@ -44,3 +48,9 @@ def solve_col(col):
 def board_iterator(board):
     """ takes board, returns top left to bottom right iterator of rows/cols"""
     return itertools.product(range(len(board)), repeat=2)
+
+def square_iterator(board):
+    """ takes board, returns top left of each square in board"""
+    step = int(math.sqrt(len(board)))
+    return itertools.product(range(0, len(board), step), repeat=2)
+    
