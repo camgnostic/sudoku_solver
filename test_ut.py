@@ -20,6 +20,7 @@ class TestGetNextStep(unittest.TestCase):
     def test_one_unsolved_spot(self):
         switcher = solve_tools.switcher
         one_spot = solve_tools.find_single_spot
+        self.assertIsNotNone(switcher(sample_puzzles.one_square['large']['corner']))
         self.assertEqual(switcher(sample_puzzles.one_square['large']['corner']),
                          one_spot(1,8))
         self.assertEqual(switcher(sample_puzzles.one_square['small']['edge']),
