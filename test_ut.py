@@ -4,6 +4,15 @@ import unittest
 import solve_tools
 import sample_puzzles
 
+class TestIsSolved(unittest.TestCase):
+    """ True if solved else False"""
+    def test_solved_puzzle(self):
+        assert solve_tools.is_solved(sample_puzzles.solved4)
+        assert solve_tools.is_solved(sample_puzzles.solved9)
+
+    def test_unsolved_puzzle(self):
+        assert not solve_tools.is_solved(sample_puzzles.one_square['large']['edge'])
+        assert not solve_tools.is_solved(sample_puzzles.one_square['small']['corner'])
 
 class TestGetNextStep(unittest.TestCase):
     """ chooses the next action based on the puzzle:
