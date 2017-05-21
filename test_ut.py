@@ -44,5 +44,10 @@ class TestSolveRow(unittest.TestCase):
         puzzle = [[1, 2, 3, 4, 5, 0, 7, 8, 9],] + [[0]*9]*8
         self.assertEqual(solve_row(puzzle)[0], [1, 2, 3, 4, 5, 6, 7, 8, 9])
 
+    def test_solve_row6(self):
+        solve_row = solve_tools.solve_row(6)
+        puzzle = [[0]*9]*6 + [[1, 2, 3, 4, 5, 0, 7, 8, 9],] + [[0]*9]*2
+        self.assertEqual(solve_row(puzzle)[6], [1, 2, 3, 4, 5, 6, 7, 8, 9])
+
 if __name__ == '__main__':
     unittest.main()
