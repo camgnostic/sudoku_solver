@@ -111,7 +111,7 @@ class TestSolveRowAndColAndSquare(unittest.TestCase):
             [0]*3 + [7, 0, 9] + [0]*3
         ] + [[0]*9]*3
         solve_sq = solve_tools.solve_square(3, 3)
-        self.assertEqual(solve_sq(puzzle)[5][5], 8)
+        self.assertEqual(solve_sq(puzzle)[5][4], 8)
 
 class TestSquareHelpers(unittest.TestCase):
     large_puzzle = [[0]*9]*9

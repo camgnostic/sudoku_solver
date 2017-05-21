@@ -49,7 +49,10 @@ def solve_square(sqr, sqc):
     def this_solve_square(puzzle):
         digit = set(range(1, len(puzzle)+1)) - set(square_flattener(puzzle))
         assert len(digit) == 1, "solve square called with multiple possibilities: " + str(square_flattener(puzzle))
-        raise
+        indexer = get_square_index(puzzle)
+        r, c = indexer(sqr, sqc)(square_flattener(puzzle).index(0))
+        puzzle[r][c] = digit.pop()
+        return puzzle
     return this_solve_square
 
 # HELPER FUNCTIONS:
