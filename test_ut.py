@@ -52,7 +52,7 @@ class TestGetNextStep(unittest.TestCase):
         self.assertEqual(solve_tools.switcher(puzzle).__name__,
                          solve_tools.solve_col(4).__name__)
 
-class TestSolveRow(unittest.TestCase):
+class TestSolveRowAndCol(unittest.TestCase):
     def test_solve_row0(self):
         solve_row = solve_tools.solve_row(0)
         puzzle = [[1, 2, 3, 4, 5, 0, 7, 8, 9],] + [[0]*9]*8
@@ -62,6 +62,13 @@ class TestSolveRow(unittest.TestCase):
         solve_row = solve_tools.solve_row(6)
         puzzle = [[0]*9]*6 + [[1, 2, 3, 4, 5, 0, 7, 8, 9],] + [[0]*9]*2
         self.assertEqual(solve_row(puzzle)[6], [1, 2, 3, 4, 5, 6, 7, 8, 9])
+
+    def test_solve_col0(self):
+        solve_col = solve_tools.solve_col(0)
+        puzzle = []
+        for x in range(9):
+            puzzle.append([x,] + [0]*8)
+        self.assertEqual(solve_col(puzzle)[0][0], 9)
 
 if __name__ == '__main__':
     unittest.main()
