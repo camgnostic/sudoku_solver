@@ -70,7 +70,7 @@ class TestGetNextStep(unittest.TestCase):
         self.assertEqual(solve_tools.switcher(puzzle).__name__,
                          solve_tools.solve_square(3, 3).__name__)
 
-class TestSolveRowAndCol(unittest.TestCase):
+class TestSolveRowAndColAndSquare(unittest.TestCase):
     def test_solve_row0(self):
         solve_row = solve_tools.solve_row(0)
         puzzle = [[1, 2, 3, 4, 5, 0, 7, 8, 9],] + [[0]*9]*8
@@ -95,7 +95,25 @@ class TestSolveRowAndCol(unittest.TestCase):
             puzzle.append([0]*5 + [x,] + [0]*3)
         self.assertEqual(solve_col(puzzle)[0][5], 9)
 
-class TestSquareIterator(unittest.TestCase):
+    def test_solve_square00(self):
+        puzzle = [
+            [1, 2, 3] + [0]*6,
+            [4, 5, 6] + [0]*6,
+            [7, 0, 9] + [0]*6
+        ] + [[0]*9]*6
+        solve_sq = solve_tools.solve_square(0, 0)
+        self.assertEqual(solve_sq(puzzle)[2][1], 8)
+    
+    def test_solve_square33(self):
+        puzzle = [[0]*9]*3 + [
+            [0]*3 + [1, 2, 3] + [0]*3,
+            [0]*3 + [4, 5, 6] + [0]*3,
+            [0]*3 + [7, 0, 9] + [0]*3
+        ] + [[0]*9]*3
+        solve_sq = solve_tools.solve_square(3, 3)
+        self.assertEqual(solve_sq(puzzle)[5][5], 8)
+
+class TestSquareHelpers(unittest.TestCase):
     large_puzzle = [[0]*9]*9
     large_iterator = [(0,0), (0, 3), (0, 6), (3, 0), (3, 3), (3, 6), (6, 0), (6, 3), (6, 6)]
     small_puzzle = [[0]*4]*4
@@ -108,6 +126,25 @@ class TestSquareIterator(unittest.TestCase):
     def test_small_puzzle_iterator(self):
         self.assertEqual(list(solve_tools.square_iterator(self.small_puzzle)),
                          self.small_iterator)
+    
+    def test_get_square_flat(self):
+        puzzle = [range(1, 10)]*9
+        self.assertEqual(solve_tools.get_square_flat(0, 0)(puzzle),
+                         [1, 2, 3, 1, 2, 3, 1, 2, 3])
+        puzzle = sample_puzzles.solved9
+        self.assertEqual(solve_tools.get_square_flat(6, 3)(puzzle),
+                         [1, 3, 8, 7, 9, 5, 6, 4, 2])
+        puzzle = sample_puzzles.solved4
+        self.assertEqual(solve_tools.get_square_flat(2, 0)(puzzle),
+                         [1, 3, 2, 4])
+
+    def test_get_square_index(self):
+        puzzle = [range(1, 10)]*9
+        indexer = solve_tools.get_square_index(puzzle)
+        self.assertEqual(indexer(0, 0)(4), (1, 0))
+        self.assertEqual(indexer(0, 0)(9), (2, 2))
+        self.assertEqual(indexer(6, 3)(2), (6, 4))
+        self.assertEqual(indexer(6, 3)(7), (8, 4))
 
 if __name__ == '__main__':
     unittest.main()

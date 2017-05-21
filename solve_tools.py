@@ -44,6 +44,14 @@ def solve_col(col):
         return puzzle
     return this_solve_col
 
+def solve_square(sqr, sqc):
+    square_flattener = get_square_flat(sqr, sqc)
+    def this_solve_square(puzzle):
+        digit = set(range(1, len(puzzle)+1)) - set(square_flattener(puzzle))
+        assert len(digit) == 1, "solve square called with multiple possibilities: " + str(square_flattener(puzzle))
+        raise
+    return this_solve_square
+
 # HELPER FUNCTIONS:
 def board_iterator(board):
     """ takes board, returns top left to bottom right iterator of rows/cols"""
@@ -53,4 +61,19 @@ def square_iterator(board):
     """ takes board, returns top left of each square in board"""
     step = int(math.sqrt(len(board)))
     return itertools.product(range(0, len(board), step), repeat=2)
-    
+
+def get_square_flat(sqr, sqc):
+    """coordinates of top left cell in square, returns function to return that square's values as list"""
+    def square_flattener(board):
+        step = int(math.sqrt(len(board)))
+        return [cell for row in board[sqr:sqr+step] for cell in row[sqc:sqc+step]]
+    return square_flattener
+
+def get_square_index(puzzle):
+    """ returns indexer that converts placement in a list of square values to board row and col"""
+    def indexer(row, col):
+        def this_square_index(index):
+            return (1, 0)
+        return this_square_index
+    return indexer
+
