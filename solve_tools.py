@@ -21,12 +21,11 @@ def is_solved(puzzle):
 
 def solve_row(row):
     def this_solve_row(puzzle):
+        digit = set(range(1, len(puzzle)+1)) - set(puzzle[row])
+        assert len(digit) == 1, "solve row called with multiple possibilities: " + str(puzzle[row])
+        puzzle[row][puzzle[row].index(0)] = digit.pop()
         return puzzle
     return this_solve_row
-        # digit = set(range(1, len(puzzle)+1)) - set(puzzle[row])
-        # assert len(digit) == 1, "solve row called with multiple possibilities: " + str(puzzle[row])
-        # puzzle[row][puzzle[row].index(0)] = digit.pop()
-        # return puzzle
 
 # HELPER FUNCTIONS:
 def board_iterator(board):
