@@ -70,5 +70,12 @@ class TestSolveRowAndCol(unittest.TestCase):
             puzzle.append([x,] + [0]*8)
         self.assertEqual(solve_col(puzzle)[0][0], 9)
 
+    def test_solve_col5(self):
+        solve_col = solve_tools.solve_col(5)
+        puzzle = []
+        for x in range(9):
+            puzzle.append([0]*5 + [x,] + [0]*3)
+        self.assertEqual(solve_col(puzzle)[0][5], 9)
+
 if __name__ == '__main__':
     unittest.main()
