@@ -5,10 +5,15 @@ def switcher(puzzle):
     """puzzle -> None (if solved) next_step_function (if not solved)"""
     if is_solved(puzzle):
         return None
-    # check for one square missing, from top left to bottom right
-    for r, c in board_iterator(puzzle):
+    # check for rows with one digit missing:
+    for r in range(len(puzzle)):
         if puzzle[r].count(0) == 1:
             return solve_row(r)
+    # check for cols with one digit missing:
+    for c in range(len(puzzle[0])):
+        if [row[c] for row in puzzle].count(0) == 1:
+            return solve_col(c)
+    raise
 
 def is_solved(puzzle):
     """puzzle -> True (if solved) False (if not solved)"""
@@ -26,6 +31,11 @@ def solve_row(row):
         puzzle[row][puzzle[row].index(0)] = digit.pop()
         return puzzle
     return this_solve_row
+
+def solve_col(col):
+    def this_solve_col(puzzle):
+        return puzzle
+    return this_solve_col
 
 # HELPER FUNCTIONS:
 def board_iterator(board):
