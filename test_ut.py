@@ -38,6 +38,20 @@ class TestGetNextStep(unittest.TestCase):
         self.assertEqual(solve_tools.switcher(puzzle).__name__,
                          solve_tools.solve_row(3).__name__)
 
+    def test_one_unsolved_in_col(self):
+        # for the first col:
+        puzzle = []
+        for x in range(9):
+            puzzle.append([x,] + [0]*8)
+        self.assertEqual(solve_tools.switcher(puzzle).__name__,
+                         solve_tools.solve_col(0).__name__)
+        # and for a row in the middle:
+        puzzle = []
+        for x in range(9):
+            puzzle.append([0]*4 + [x,] + [0]*4)
+        self.assertEqual(solve_tools.switcher(puzzle).__name__,
+                         solve_tools.solve_col(4).__name__)
+
 class TestSolveRow(unittest.TestCase):
     def test_solve_row0(self):
         solve_row = solve_tools.solve_row(0)
