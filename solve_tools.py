@@ -2,7 +2,10 @@
 
 def switcher(puzzle):
     """puzzle -> None (if solved) next_step_function (if not solved)"""
-    pass
+    if is_solved(puzzle):
+        return None
+    else:
+        return False
 
 def is_solved(puzzle):
     """puzzle -> True (if solved) False (if not solved)"""
