@@ -31,10 +31,18 @@ class TestGetNextStep(unittest.TestCase):
     def test_one_unsolved_in_row(self):
         # for the first row:
         puzzle = [[1, 2, 3, 4, 5, 0, 7, 8, 9],] + [[0]*9]*8
-        self.assertEqual(solve_tools.switcher(puzzle), solve_tools.solve_row(0))
+        self.assertEqual(solve_tools.switcher(puzzle).__name__,
+                         solve_tools.solve_row(0).__name__)
         # and for a row in the middle:
         puzzle = [[0]*9]*3 + [[1, 2, 3, 4, 5, 0, 7, 8, 9],] + [[0]*9]*5
-        self.assertEqual(solve_tools.switcher(puzzle), solve_tools.solve_row(3))
+        self.assertEqual(solve_tools.switcher(puzzle).__name__,
+                         solve_tools.solve_row(3).__name__)
+
+class TestSolveRow(unittest.TestCase):
+    def test_solve_row0(self):
+        solve_row = solve_tools.solve_row(0)
+        puzzle = [[1, 2, 3, 4, 5, 0, 7, 8, 9],] + [[0]*9]*8
+        self.assertEqual(solve_row(puzzle)[0], [1, 2, 3, 4, 5, 6, 7, 8, 9])
 
 if __name__ == '__main__':
     unittest.main()
