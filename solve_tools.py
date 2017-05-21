@@ -34,6 +34,9 @@ def solve_row(row):
 
 def solve_col(col):
     def this_solve_col(puzzle):
+        digit = set(range(1, len(puzzle[0])+1)) - set([row[col] for row in puzzle])
+        assert len(digit) == 1, "solve col called with multiple possibilities: " + str([row[col] for row in puzzle])
+        puzzle[[row[col] for row in puzzle].index(0)][col] = digit.pop()
         return puzzle
     return this_solve_col
 
