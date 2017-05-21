@@ -2,6 +2,13 @@
 import itertools
 import math
 
+def solve_single_possibilities(puzzle):
+    next_step = switcher(puzzle)
+    if not next_step:
+        return puzzle
+    else:
+        return next_step(puzzle)
+
 def switcher(puzzle):
     """puzzle -> None (if solved) next_step_function (if not solved)"""
     if is_solved(puzzle):
