@@ -8,8 +8,7 @@ def switcher(puzzle):
     # check for one square missing, from top left to bottom right
     for r, c in board_iterator(puzzle):
         if puzzle[r].count(0) == 1:
-            if [row[c] for row in puzzle].count(0) == 1:
-                return find_single_spot(r, c)
+            return solve_row(r)
 
 def is_solved(puzzle):
     """puzzle -> True (if solved) False (if not solved)"""
@@ -20,8 +19,8 @@ def is_solved(puzzle):
     return True
 
 
-def find_single_spot(row, col):
-    return 'banana'
+def solve_row(row):
+    return 'banana' + str(row)
 
 
 # HELPER FUNCTIONS:
