@@ -2,5 +2,8 @@
 import solve_tools
 
 def solve(puzzle):
-    puzzle = solve_tools.solve_single_possibilities(puzzle)
-    return puzzle
+    puzzle, solved = solve_tools.solve_single_possibilities(puzzle)
+    if solved:
+        return puzzle
+    else:
+        raise

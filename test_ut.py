@@ -75,6 +75,14 @@ class TestGetNextStep(unittest.TestCase):
         next_steps = list(solve_tools.switcher(puzzle))
         self.assertEqual(next_steps[2], True)
 
+    def test_switcher_returns_two_rows_then_col(self):
+        puzzle = sample_puzzles.two_missing_not_finished
+        next_steps = list(solve_tools.switcher(puzzle))
+        self.assertEqual(next_steps[2], True)
+        self.assertEqual(len(next_steps), 3)
+        solved = solve_tools.solve_single_possibilities(puzzle)
+        self.assertEqual(solved, (sample_puzzles.two_missing_not_finished_singles_found, False))
+
 
 class TestSolveRowAndColAndSquare(unittest.TestCase):
     def test_solve_row0(self):

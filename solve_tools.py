@@ -6,7 +6,12 @@ def solve_single_possibilities(puzzle):
     next_steps_gen = switcher(puzzle)
     for next_step in next_steps_gen:
         if next_step is None:
-            return puzzle
+            return puzzle, True
+        elif next_step is True:
+            puzzle = solve_single_possibilities(puzzle)
+            break
+        elif next_step is False:
+            return puzzle, False
         else:
             puzzle = next_step(puzzle)
     return puzzle
@@ -26,11 +31,16 @@ def switcher(puzzle):
         return
     for c in range(len(puzzle[0])):
         if [row[c] for row in puzzle].count(0) == 1:
+            restart = True
             yield solve_col(c)
+    if restart: # we've changed something, start over before doing cols
+        yield True
+        return
     for r, c in square_iterator(puzzle):
         if get_square_flat(r, c)(puzzle).count(0) == 1:
+            restart = True
             yield solve_square(r, c)
-    yield 'banana'
+    yield restart
 
 def is_solved(puzzle):
     """puzzle -> True (if solved) False (if not solved)"""
