@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import itertools
 import math
+import copy
 
 def solve_single_possibilities(puzzle):
     while True:
@@ -124,7 +125,8 @@ def get_possibility_fn(cell_set):
             raise
     return poss_fn
 
-def get_possibility_map(puzzle):
+def get_possibility_map(bare_puzzle):
+    puzzle = copy.deepcopy(bare_puzzle)
     row_fns = [get_possibility_fn(row) for row in puzzle]
     col_fns = [get_possibility_fn(get_column_values(puzzle, col)) for col in range(len(puzzle[0]))]
     sq_fns = {rctuple: get_possibility_fn(get_square_flat(*rctuple)(puzzle)) for rctuple in square_iterator(puzzle)}
@@ -132,5 +134,8 @@ def get_possibility_map(puzzle):
     for r, c in board_iterator(puzzle):
         puzzle[r][c] = sq_fns[(int(r/step)*step, int(c/step)*step)](col_fns[c](row_fns[r](puzzle[r][c])))
     return puzzle
+
+def unmap(poss_map):
+    return [map(lambda cell: cell if type(cell) != tuple else 0, row) for row in poss_map]
 
 

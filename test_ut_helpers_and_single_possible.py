@@ -191,5 +191,9 @@ class TestPossibilityMapper(unittest.TestCase):
         possibility_map = sample_puzzles.poss_map_tiny
         self.assertEqual(solve_tools.get_possibility_map(puzzle), possibility_map)
 
+    def test_unmap(self):
+        puzzle = sample_puzzles.medium_step1
+        self.assertEqual(solve_tools.unmap(solve_tools.get_possibility_map(puzzle)), puzzle)
+
 if __name__ == '__main__':
     unittest.main()
