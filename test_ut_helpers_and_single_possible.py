@@ -168,11 +168,24 @@ class TestSquareHelpers(unittest.TestCase):
 
 class TestPossibilityMapper(unittest.TestCase):
     def test_row_possibles(self):
-        row = [1, 2, 0, 0]
+        rows = [[1, 2, 0, 0], [1, 2, (3, 4), (3, 4)]]
+        for row in rows:
+            possibility_fn = solve_tools.get_possibility_fn(row)
+            self.assertEqual(possibility_fn(0), (3, 4))
+            self.assertEqual(possibility_fn((2, 3, 4)), (3, 4))
+            self.assertEqual(possibility_fn((1, 3)), (3, ))
+
+    def test_row_possibles_longer(self):
+        row = [1, 2, 0, (4, 5), (4, 5, 6), 7, (4, 8), 9]
         possibility_fn = solve_tools.get_possibility_fn(row)
-        self.assertEqual(possibility_fn(0), (3, 4))
-        self.assertEqual(possibility_fn((2, 3, 4)), (3, 4))
-        self.assertEqual(possibility_fn((1, 3)), (3, ))
+        self.assertEqual(possibility_fn(0), (3, 4, 5, 6, 8))
+        self.assertEqual(possibility_fn((3, 4, 5, 6, 7, 8)), (3, 4, 5, 6, 8))
+        self.assertEqual(possibility_fn((3, 5, 8)), (3, 5, 8))
+
+    def test_possibility_map(self):
+        puzzle = [[0]*4]*4
+        possibility_map = [[(1, 2, 3, 4)]*4]*4
+        self.assertEqual(solve_tools.get_possibility_map(puzzle), possibility_map)
 
 if __name__ == '__main__':
     unittest.main()

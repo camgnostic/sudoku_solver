@@ -107,6 +107,9 @@ def get_square_index(puzzle):
         return this_square_index
     return indexer
 
+def get_column_values(puzzle, col):
+    return [row[col] for row in puzzle]
+
 def get_possibility_fn(cell_set):
     digits = set(range(1, len(cell_set)+1)) - set([cell for cell in cell_set if type(cell) != tuple])
     def poss_fn(cell):
@@ -122,5 +125,12 @@ def get_possibility_fn(cell_set):
         else:
             raise
     return poss_fn
+
+def get_possibility_map(puzzle):
+    row_fns = [get_possibility_fn(row) for row in puzzle]
+    col_fns = [get_possibility_fn(get_column_values(puzzle, col)) for col in range(len(puzzle[0]))]
+    for r, c in board_iterator(puzzle):
+        puzzle[r][c] = col_fns[c](row_fns[r](puzzle[r][c]))
+    return puzzle
 
 
