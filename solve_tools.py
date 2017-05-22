@@ -9,12 +9,16 @@ def solve_single_possibilities(puzzle):
             if next_step is None:
                 return puzzle, True
             elif next_step is True:
-                raise
+                raise NotImplementedError("Should never see True here")
             elif next_step is False:
                 return puzzle, False
             else:
                 puzzle = next_step(puzzle)
-    raise
+    raise NotImplementedError("should return before loop finishes")
+
+def solve_single_spot(puzzle):
+    pass
+    
 
 def singles_switcher(puzzle):
     """puzzle -> None (if solved) next_step_function (if not solved and single possibility)"""
@@ -102,4 +106,7 @@ def get_square_index(puzzle):
             return (sqr+int(index/step), sqc + index%step)
         return this_square_index
     return indexer
+
+def get_possibility_fn(cell_set):
+    pass
 
