@@ -108,5 +108,19 @@ def get_square_index(puzzle):
     return indexer
 
 def get_possibility_fn(cell_set):
-    pass
+    digits = set(range(1, len(cell_set)+1)) - set([cell for cell in cell_set if type(cell) != tuple])
+    def poss_fn(cell):
+        if type(cell) == tuple:
+            return tuple(sorted(list(set(cell).intersection(digits))))
+        elif type(cell) == int:
+            if cell == 0:
+                return tuple(sorted(list(digits)))
+            elif cell in digits:
+                return cell
+            else:
+                raise
+        else:
+            raise
+    return poss_fn
+
 
