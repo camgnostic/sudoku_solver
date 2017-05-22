@@ -3,28 +3,34 @@ import itertools
 import math
 
 def solve_single_possibilities(puzzle):
-    next_step = switcher(puzzle)
-    if not next_step:
-        return puzzle
-    else:
-        return next_step(puzzle)
+    next_steps_gen = switcher(puzzle)
+    for next_step in next_steps_gen:
+        if next_step is None:
+            return puzzle
+        else:
+            puzzle = next_step(puzzle)
+    return puzzle
 
 def switcher(puzzle):
     """puzzle -> None (if solved) next_step_function (if not solved)"""
     if is_solved(puzzle):
-        return None
+        yield None
+    restart = False
     # check for rows with one digit missing:
     for r in range(len(puzzle)):
         if puzzle[r].count(0) == 1:
-            return solve_row(r)
-    # check for cols with one digit missing:
+            restart = True
+            yield solve_row(r)
+    if restart: # we've changed something, start over before doing cols
+        yield True
+        return
     for c in range(len(puzzle[0])):
         if [row[c] for row in puzzle].count(0) == 1:
-            return solve_col(c)
+            yield solve_col(c)
     for r, c in square_iterator(puzzle):
         if get_square_flat(r, c)(puzzle).count(0) == 1:
-            return solve_square(r, c)
-    raise
+            yield solve_square(r, c)
+    yield 'banana'
 
 def is_solved(puzzle):
     """puzzle -> True (if solved) False (if not solved)"""

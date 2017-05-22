@@ -30,6 +30,10 @@ class TestOneSquarePuzzles(unittest.TestCase):
         for puzz, soln in self.get_puzzles('small'):
             self.assertEqual(solver.solve(puzz), soln)
 
+class TestTwoSquarePuzzles(unittest.TestCase):
+    def test_solve_large(self):
+        self.assertEqual(solver.solve(sample_puzzles.two_missing),
+                         sample_puzzles.solved9)
 
 if __name__ == '__main__':
     unittest.main()
