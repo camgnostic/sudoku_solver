@@ -3,21 +3,21 @@ import itertools
 import math
 
 def solve_single_possibilities(puzzle):
-    next_steps_gen = singles_switcher(puzzle)
-    for next_step in next_steps_gen:
-        if next_step is None:
-            return puzzle, True
-        elif next_step is True:
-            puzzle = solve_single_possibilities(puzzle)
-            break
-        elif next_step is False:
-            return puzzle, False
-        else:
-            puzzle = next_step(puzzle)
-    return puzzle
+    while True:
+        next_steps_gen = singles_switcher(puzzle)
+        for next_step in next_steps_gen:
+            if next_step is None:
+                return puzzle, True
+            elif next_step is True:
+                raise
+            elif next_step is False:
+                return puzzle, False
+            else:
+                puzzle = next_step(puzzle)
+    raise
 
 def singles_switcher(puzzle):
-    """puzzle -> None (if solved) next_step_function (if not solved)"""
+    """puzzle -> None (if solved) next_step_function (if not solved and single possibility)"""
     if is_solved(puzzle):
         yield None
     restart = False
@@ -27,20 +27,20 @@ def singles_switcher(puzzle):
             restart = True
             yield solve_row(r)
     if restart: # we've changed something, start over before doing cols
-        yield True
         return
     for c in range(len(puzzle[0])):
         if [row[c] for row in puzzle].count(0) == 1:
             restart = True
             yield solve_col(c)
     if restart: # we've changed something, start over before doing cols
-        yield True
         return
     for r, c in square_iterator(puzzle):
         if get_square_flat(r, c)(puzzle).count(0) == 1:
             restart = True
             yield solve_square(r, c)
-    yield restart
+    if not restart:
+        yield False
+    return
 
 def is_solved(puzzle):
     """puzzle -> True (if solved) False (if not solved)"""

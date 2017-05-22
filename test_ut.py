@@ -21,7 +21,7 @@ class TestGetNextStep(unittest.TestCase):
 
         cases:
             1. puzzle is solved (return None)
-            2. puzzle has 1 unsolved spot (return find_single_spot)
+            2. puzzle has 1 unsolved spot in a row/col/square (return solve_row/col/square)
     """
     def test_solved_puzzle(self):
         singles_switcher = solve_tools.singles_switcher
@@ -70,16 +70,15 @@ class TestGetNextStep(unittest.TestCase):
         self.assertEqual(next(solve_tools.singles_switcher(puzzle)).__name__,
                          solve_tools.solve_square(3, 3).__name__)
 
-    def test_singles_switcher_returns_two_rows_then_True(self):
+    def test_singles_switcher_returns_two_rows(self):
         puzzle = sample_puzzles.two_missing
         next_steps = list(solve_tools.singles_switcher(puzzle))
-        self.assertEqual(next_steps[2], True)
+        self.assertEqual(len(next_steps), 2)
 
-    def test_singles_switcher_returns_two_rows_then_col(self):
+    def test_singles_switcher_returns_two_rows_then_restarts(self):
         puzzle = sample_puzzles.two_missing_not_finished
         next_steps = list(solve_tools.singles_switcher(puzzle))
-        self.assertEqual(next_steps[2], True)
-        self.assertEqual(len(next_steps), 3)
+        self.assertEqual(len(next_steps), 2)
         solved = solve_tools.solve_single_possibilities(puzzle)
         self.assertEqual(solved, (sample_puzzles.two_missing_not_finished_singles_found, False))
         
