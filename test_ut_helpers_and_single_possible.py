@@ -166,6 +166,7 @@ class TestSquareHelpers(unittest.TestCase):
         self.assertEqual(indexer(6, 3)(1), (6, 4))
         self.assertEqual(indexer(6, 3)(7), (8, 4))
 
+
 class TestPossibilityMapper(unittest.TestCase):
     def test_row_possibles(self):
         rows = [[1, 2, 0, 0], [1, 2, (3, 4), (3, 4)]]
@@ -185,6 +186,9 @@ class TestPossibilityMapper(unittest.TestCase):
     def test_possibility_map(self):
         puzzle = [[0]*4]*4
         possibility_map = [[(1, 2, 3, 4)]*4]*4
+        self.assertEqual(solve_tools.get_possibility_map(puzzle), possibility_map)
+        puzzle = sample_puzzles.preposs_map_tiny
+        possibility_map = sample_puzzles.poss_map_tiny
         self.assertEqual(solve_tools.get_possibility_map(puzzle), possibility_map)
 
 if __name__ == '__main__':

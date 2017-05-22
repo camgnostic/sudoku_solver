@@ -118,10 +118,8 @@ def get_possibility_fn(cell_set):
         elif type(cell) == int:
             if cell == 0:
                 return tuple(sorted(list(digits)))
-            elif cell in digits:
-                return cell
             else:
-                raise
+                return cell
         else:
             raise
     return poss_fn
@@ -129,8 +127,10 @@ def get_possibility_fn(cell_set):
 def get_possibility_map(puzzle):
     row_fns = [get_possibility_fn(row) for row in puzzle]
     col_fns = [get_possibility_fn(get_column_values(puzzle, col)) for col in range(len(puzzle[0]))]
+    sq_fns = {rctuple: get_possibility_fn(get_square_flat(*rctuple)(puzzle)) for rctuple in square_iterator(puzzle)}
+    step = int(math.sqrt(len(puzzle)))
     for r, c in board_iterator(puzzle):
-        puzzle[r][c] = col_fns[c](row_fns[r](puzzle[r][c]))
+        puzzle[r][c] = sq_fns[(int(r/step)*step, int(c/step)*step)](col_fns[c](row_fns[r](puzzle[r][c])))
     return puzzle
 
 
