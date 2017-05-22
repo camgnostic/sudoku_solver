@@ -3,7 +3,7 @@ import itertools
 import math
 
 def solve_single_possibilities(puzzle):
-    next_steps_gen = switcher(puzzle)
+    next_steps_gen = singles_switcher(puzzle)
     for next_step in next_steps_gen:
         if next_step is None:
             return puzzle, True
@@ -16,7 +16,7 @@ def solve_single_possibilities(puzzle):
             puzzle = next_step(puzzle)
     return puzzle
 
-def switcher(puzzle):
+def singles_switcher(puzzle):
     """puzzle -> None (if solved) next_step_function (if not solved)"""
     if is_solved(puzzle):
         yield None

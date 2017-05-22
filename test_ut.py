@@ -24,18 +24,18 @@ class TestGetNextStep(unittest.TestCase):
             2. puzzle has 1 unsolved spot (return find_single_spot)
     """
     def test_solved_puzzle(self):
-        switcher = solve_tools.switcher
-        self.assertEqual(next(switcher(sample_puzzles.solved4)), None)
-        self.assertEqual(next(switcher(sample_puzzles.solved9)), None)
+        singles_switcher = solve_tools.singles_switcher
+        self.assertEqual(next(singles_switcher(sample_puzzles.solved4)), None)
+        self.assertEqual(next(singles_switcher(sample_puzzles.solved9)), None)
 
     def test_one_unsolved_in_row(self):
         # for the first row:
         puzzle = [[1, 2, 3, 4, 5, 0, 7, 8, 9],] + [[0]*9]*8
-        self.assertEqual(next(solve_tools.switcher(puzzle)).__name__,
+        self.assertEqual(next(solve_tools.singles_switcher(puzzle)).__name__,
                          solve_tools.solve_row(0).__name__)
         # and for a row in the middle:
         puzzle = [[0]*9]*3 + [[1, 2, 3, 4, 5, 0, 7, 8, 9],] + [[0]*9]*5
-        self.assertEqual(next(solve_tools.switcher(puzzle)).__name__,
+        self.assertEqual(next(solve_tools.singles_switcher(puzzle)).__name__,
                          solve_tools.solve_row(3).__name__)
 
     def test_one_unsolved_in_col(self):
@@ -43,13 +43,13 @@ class TestGetNextStep(unittest.TestCase):
         puzzle = []
         for x in range(9):
             puzzle.append([x,] + [0]*8)
-        self.assertEqual(next(solve_tools.switcher(puzzle)).__name__,
+        self.assertEqual(next(solve_tools.singles_switcher(puzzle)).__name__,
                          solve_tools.solve_col(0).__name__)
         # and for a col in the middle:
         puzzle = []
         for x in range(9):
             puzzle.append([0]*4 + [x,] + [0]*4)
-        self.assertEqual(next(solve_tools.switcher(puzzle)).__name__,
+        self.assertEqual(next(solve_tools.singles_switcher(puzzle)).__name__,
                          solve_tools.solve_col(4).__name__)
 
     def test_one_unsolved_in_square(self):
@@ -59,7 +59,7 @@ class TestGetNextStep(unittest.TestCase):
             [4, 5, 6] + [0]*6,
             [7, 0, 9] + [0]*6
         ] + [[0]*9]*6
-        self.assertEqual(next(solve_tools.switcher(puzzle)).__name__,
+        self.assertEqual(next(solve_tools.singles_switcher(puzzle)).__name__,
                          solve_tools.solve_square(0, 0).__name__)
         # and for a square in the middle:
         puzzle = [[0]*9]*3 + [
@@ -67,21 +67,25 @@ class TestGetNextStep(unittest.TestCase):
             [0]*3 + [4, 5, 6] + [0]*3,
             [0]*3 + [7, 0, 9] + [0]*3
         ] + [[0]*9]*3
-        self.assertEqual(next(solve_tools.switcher(puzzle)).__name__,
+        self.assertEqual(next(solve_tools.singles_switcher(puzzle)).__name__,
                          solve_tools.solve_square(3, 3).__name__)
 
-    def test_switcher_returns_two_rows_then_True(self):
+    def test_singles_switcher_returns_two_rows_then_True(self):
         puzzle = sample_puzzles.two_missing
-        next_steps = list(solve_tools.switcher(puzzle))
+        next_steps = list(solve_tools.singles_switcher(puzzle))
         self.assertEqual(next_steps[2], True)
 
-    def test_switcher_returns_two_rows_then_col(self):
+    def test_singles_switcher_returns_two_rows_then_col(self):
         puzzle = sample_puzzles.two_missing_not_finished
-        next_steps = list(solve_tools.switcher(puzzle))
+        next_steps = list(solve_tools.singles_switcher(puzzle))
         self.assertEqual(next_steps[2], True)
         self.assertEqual(len(next_steps), 3)
         solved = solve_tools.solve_single_possibilities(puzzle)
         self.assertEqual(solved, (sample_puzzles.two_missing_not_finished_singles_found, False))
+        
+    def test_singles_switcher_returns_none_when_no_singles(self):
+        puzzle = sample_puzzles.medium_step1
+        
 
 
 class TestSolveRowAndColAndSquare(unittest.TestCase):
