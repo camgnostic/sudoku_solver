@@ -18,8 +18,10 @@ def solve_single_possibilities(puzzle):
     raise NotImplementedError("should return before loop finishes")
 
 def solve_single_spot(puzzle):
-    pass
-    
+    return puzzle
+
+def solve_single_choice(puzzle):
+    return [map(lambda x: x[0] if (type(x) == tuple and len(x) == 1) else x, row) for row in puzzle]
 
 def singles_switcher(puzzle):
     """puzzle -> None (if solved) next_step_function (if not solved and single possibility)"""
@@ -138,4 +140,10 @@ def get_possibility_map(bare_puzzle):
 def unmap(poss_map):
     return [map(lambda cell: cell if type(cell) != tuple else 0, row) for row in poss_map]
 
-
+def print_bare_board(board):
+    pretty = ''
+    for row in board:
+        for cell in row[:-1]:
+            pretty += ' %s |' % str(cell)
+        pretty += ' %s \n' % str(row[-1])
+    return pretty.replace('0', ' ')[:-1]
