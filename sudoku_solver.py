@@ -8,4 +8,7 @@ def solve(puzzle):
     for col_number in range(len(puzzle)):
         group.set_column(col_number, puzzle,
                          group.solve_one(group.get_column(col_number, puzzle)))
+    for square_number in range(len(puzzle)):
+        group.set_square(square_number, puzzle,
+                         group.solve_one(group.get_square(square_number, puzzle)))
     return puzzle
