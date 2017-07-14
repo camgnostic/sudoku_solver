@@ -2,6 +2,7 @@
 
 import unittest
 import group
+import copy
 
 #puzzle_structure = [[x]*9 for x in range(1,10)]
 
@@ -47,3 +48,15 @@ class TestSquareGetter(unittest.TestCase):
 
     def test_correct_square_bottom_row(self):
         assert group.get_square(7, square_test) == [8]*9
+
+
+class TestSquareGetter(unittest.TestCase):
+    def setUp(self):
+        self.square_test_copy = copy.deepcopy(square_test)
+
+    def tearDown(self):
+        self.square_test_copy = None
+
+    def test_square_setter_first_square(self):
+        assert group.get_square(0, group.set_square(0, self.square_test_copy,
+                                                    ["a"]*9)) == ["a"]*9
