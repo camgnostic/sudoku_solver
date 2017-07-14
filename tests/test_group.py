@@ -19,6 +19,14 @@ class TestSimpleListTools(unittest.TestCase):
 
 column_test = [[1]*3 + [x] + [1]*5 for x in range(1, 10)]
 
+
 class TestColumnGetter(unittest.TestCase):
     def test_correct_column_is_returned(self):
         assert group.get_column(3, column_test) == list(range(1, 10))
+
+
+class TestColumnSetter(unittest.TestCase):
+    def test_column_correctly_updates(self):
+        assert group.get_column(
+            3, group.set_column(3, column_test, list(reversed(list(range(1, 10)))))
+            ) == list(reversed(list(range(1, 10))))
