@@ -14,6 +14,12 @@ def get_column(colno, puzzle):
 
 
 def set_column(colno, puzzle, newcolumn):
+    """takes column number, old puzzle, and a list of 9 to put in that column, returns updated puzzle"""
     for rowno in range(len(puzzle)):
         puzzle[rowno][colno] = newcolumn[rowno]
     return puzzle
+
+
+def get_square(squareno, puzzle):
+    """takes square number (left to right then top to bottom) returns a list of 9 numbers"""
+    return puzzle[squareno][0:3] + puzzle[squareno+1][0:3] + puzzle[squareno+2][0:3]
