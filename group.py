@@ -11,3 +11,9 @@ def solve_one(group):
 def get_column(colno, puzzle):
     """takes a column number and a puzzle (list of lists) returns a list of values in that column"""
     return [row[colno] for row in puzzle]
+
+
+def set_column(colno, puzzle, newcolumn):
+    for rowno in range(len(puzzle)):
+        puzzle[rowno][colno] = newcolumn[rowno]
+    return puzzle
