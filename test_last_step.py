@@ -28,10 +28,14 @@ one_step_from_solved = [
 ]
 
 
-class TestSolvedPuzzles(unittest.TestCase):
+class TestSolvedPuzzle(unittest.TestCase):
     def test_solved_puzzle_is_returned(self):
-        returned_solution = sudoku_solver.solve(solution)
-        assert returned_solution == solution
+        assert sudoku_solver.solve(solution) == solution
+
+
+class TestOneStepPuzzle(unittest.TestCase):
+    def test_last_step_completed(self):
+        assert sudoku_solver.solve(one_step_from_solved) == solution
 
 if __name__ == '__main__':
     unittest.main()
