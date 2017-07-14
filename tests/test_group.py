@@ -30,3 +30,11 @@ class TestColumnSetter(unittest.TestCase):
         assert group.get_column(
             3, group.set_column(3, column_test, list(reversed(list(range(1, 10)))))
             ) == list(reversed(list(range(1, 10))))
+
+
+square_test = [[1]*3 + [2]*3 + [3]*3]*3 + [[9]*9]*6
+
+
+class TestSquareGetter(unittest.TestCase):
+    def test_correct_square_is_returned(self):
+        assert group.get_square(1, square_test) == [1]*9
