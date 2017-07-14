@@ -22,6 +22,6 @@ def set_column(colno, puzzle, newcolumn):
 
 def get_square(squareno, puzzle):
     """takes square number (left to right then top to bottom) returns a list of 9 numbers"""
-    rowno = int(squareno/3)
-    colno = squareno * 3
+    rowno = int(squareno/3)*3
+    colno = squareno % 3 * 3
     return puzzle[rowno][colno:colno+3] + puzzle[rowno+1][colno:colno+3] + puzzle[rowno+2][colno:colno+3]

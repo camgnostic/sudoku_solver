@@ -44,6 +44,6 @@ class TestSquareGetter(unittest.TestCase):
 
     def test_correct_square_middle_row(self):
         assert group.get_square(3, square_test) == [4]*9
-    
+
     def test_correct_square_bottom_row(self):
         assert group.get_square(7, square_test) == [8]*9
