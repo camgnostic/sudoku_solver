@@ -25,3 +25,15 @@ def get_square(squareno, puzzle):
     rowno = int(squareno/3)*3
     colno = squareno % 3 * 3
     return puzzle[rowno][colno:colno+3] + puzzle[rowno+1][colno:colno+3] + puzzle[rowno+2][colno:colno+3]
+
+
+def set_square(squareno, puzzle, newsquare):
+    """takes squareno (left to right then top to bottom), old puzzle, and new list of 9 numbers,
+
+    returns updated puzzle"""
+    rowno = int(squareno/3)*3
+    colno = squareno % 3 * 3
+    puzzle[rowno][colno:colno+3] = newsquare[0:3]
+    puzzle[rowno+1][colno:colno+3] = newsquare[3:6]
+    puzzle[rowno+2][colno:colno+3] = newsquare[6:9]
+    return puzzle
