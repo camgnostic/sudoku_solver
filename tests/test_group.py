@@ -16,3 +16,9 @@ class TestSimpleListTools(unittest.TestCase):
 
     def test_row_with_no_missing_is_returned(self):
         assert group.solve_one(list(range(1, 10))) == list(range(1, 10))
+
+column_test = [[1]*3 + [x] + [1]*5 for x in range(1, 10)]
+
+class TestColumnGetter(unittest.TestCase):
+    def test_correct_column_is_returned(self):
+        assert group.get_column(3, column_test) == list(range(1, 10))
