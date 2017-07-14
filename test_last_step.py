@@ -36,6 +36,3 @@ class TestSolvedPuzzle(unittest.TestCase):
 class TestOneStepPuzzle(unittest.TestCase):
     def test_last_step_completed(self):
         assert sudoku_solver.solve(one_step_from_solved) == solution
-
-if __name__ == '__main__':
-    unittest.main()
