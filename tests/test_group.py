@@ -32,7 +32,7 @@ class TestColumnSetter(unittest.TestCase):
             ) == list(reversed(list(range(1, 10))))
 
 
-square_test = [[1]*3 + [2]*3 + [3]*3]*3 + [[9]*9]*6
+square_test = [[1]*3 + [2]*3 + [3]*3]*3 + [[4]*3 + [5]*3 + [6]*3]*3 + [[7]*3 + [8]*3 + [9]*3]*3
 
 
 class TestSquareGetter(unittest.TestCase):
@@ -41,3 +41,9 @@ class TestSquareGetter(unittest.TestCase):
 
     def test_correct_square_after_first(self):
         assert group.get_square(1, square_test) == [2]*9
+
+    def test_correct_square_middle_row(self):
+        assert group.get_square(3, square_test) == [4]*9
+    
+    def test_correct_square_bottom_row(self):
+        assert group.get_square(7, square_test) == [8]*9
