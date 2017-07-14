@@ -60,3 +60,7 @@ class TestSquareGetter(unittest.TestCase):
     def test_square_setter_first_square(self):
         assert group.get_square(0, group.set_square(0, self.square_test_copy,
                                                     ["a"]*9)) == ["a"]*9
+
+    def test_square_setter_middle_square(self):
+        assert group.get_square(5, group.set_square(5, self.square_test_copy,
+                                                    ["a"]*9)) == ["a"]*9
