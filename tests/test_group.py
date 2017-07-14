@@ -37,4 +37,4 @@ square_test = [[1]*3 + [2]*3 + [3]*3]*3 + [[9]*9]*6
 
 class TestSquareGetter(unittest.TestCase):
     def test_correct_square_is_returned(self):
-        assert group.get_square(1, square_test) == [1]*9
+        assert group.get_square(0, square_test) == [1]*9
